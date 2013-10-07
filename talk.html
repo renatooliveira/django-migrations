@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=1024, user-scalable=no">
+
+	<title>Django Migrations</title>
+	<link rel="stylesheet" href="deck.js/core/deck.core.css">
+	<link rel="stylesheet" href="deck.js/extensions/goto/deck.goto.css">
+	<link rel="stylesheet" href="deck.js/extensions/menu/deck.menu.css">
+	<link rel="stylesheet" href="deck.js/extensions/navigation/deck.navigation.css">
+	<link rel="stylesheet" href="deck.js/extensions/status/deck.status.css">
+	<link rel="stylesheet" href="deck.js/extensions/hash/deck.hash.css">
+	<link rel="stylesheet" href="deck.js/extensions/scale/deck.scale.css">
+
+	<!-- Style theme. More available in /themes/style/ or create your own. -->
+	<link rel="stylesheet" href="labcodes.css">
+	<link rel="stylesheet" href="talk.css">
+	
+	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
+	<link rel="stylesheet" href="deck.js/themes/transition/horizontal-slide.css">
+	
+	<!-- Required Modernizr file -->
+	<script src="deck.js/modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<!-- Begin slides. Just make elements with a class of slide. -->
+
+<section class="slide">
+	<h1>Django Migrations</h1>
+</section>
+
+<section class="slide">
+	<h2>Quem sou eu...</h2>
+	<ul>
+		<li>Renato Oliveira</li>
+		<li>Recife, PE</li>
+		<li>Co-fundador da Labcodes</li>
+		<li>Rejeitador de pull requests do Mobdoctor</li>
+		<li>Membro do PUG-PE</li>
+		<li>Organizador da Python Nordeste 2013</li>
+		<li>Windows hatter</li>
+		<li>Open Source fanboy</li>
+		<li>Já mandei e tive um e-mail respondido por Guido! (morram de inveja)</li>
+	</ul>
+</section>
+
+<section class="slide">
+	<h2>Pequena pesquisa...</h2>
+	<ul>
+		<li>Quem trabalha com django?</li>
+		<li>Quem já precisou alterar um model no decorrer do desenvolvimento da sua aplicação?</li>
+		<li>Quem planejou (em uma aplicação grande) todo o banco de dados bonitinho e seguiu o planejamento até o fim?</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>South</h2>
+	<ul>
+		<li>Ferramenta que provê migração de banco de dados para aplicações Django.</li>
+		<li>Desenvolvida por Andrew Godwin em 2008.</li>
+		<li>Desde então app obrigatória em todo dev Django que se preze.</li>
+		<li>Será mesmo?</li>
+	</ul>
+</section>
+
+<section class="slide">
+	<img src="img/django-core-dev.png" />
+</section>
+
+
+<section class="slide">
+	<img src="img/django-core-dev-2.png" />
+</section>
+
+<section class="slide">
+	<h2>South</h2>
+	<ul>
+		<li>5 anos de experiência</li>
+		<li>Alguns erros e acertos</li>
+		<li>Time to refactor!</li>
+		<li>django.db.migrations</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>O kickstarter</h2>
+	<ul>
+		<li><a href="http://kickstarter.com/projects/andrewgodwin/schema-migrations-for-django">http://kickstarter.com/projects/andrewgodwin/schema-migrations-for-django</a></li>
+		<li>Esperado £2,500 (65 min)</li>
+		<li>Alcançado £17,952</li>
+		<li>Backport para o south e suporte para outras base de dados</li>
+	</ul>
+</section>
+<section class="slide">
+	<img src="img/andrew-godwin.png" />
+</section>
+<section class="slide">
+	<h2>django.db.migrations</h2>
+	<p>Features</p>
+	<ul>
+		<li>Melhorias no formato das migrações</li>
+		<li>Rebase (squashing) --não implementado</li>
+		<li>Merge --não implementado</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>django.db.migrations</h2>
+	<p>Comandos e workflow</p>
+	<ul>
+		<li>python manage.py migrate</li>
+		<ul><li>(syncdb deprecated)</li></ul>
+		<li>python manage.py makemigrations myapp</li>
+	</ul>
+</section>
+
+<section class="slide">
+<pre class="python">
+# encoding: utf8
+from django.db import models, migrations
+
+
+class Migration(migrations.Migration):
+
+    dependencies = []
+
+    operations = [
+        migrations.CreateModel(
+            fields=[(u'id', models.AutoField(
+                verbose_name=u'ID', serialize=False,
+                auto_created=True, primary_key=True
+            ),), ('attr', models.CharField(max_length=100),)],
+            bases=(models.Model,),
+            options = {},
+            name = 'MyModel',
+        ),
+    ]
+
+</pre>
+</section>
+
+<section class="slide">
+	<h2>Data migrations</h2>
+
+	<ul>
+		<li>migrations.RunSQL</li>
+		<li>migrations.RunPython</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>Problemas</h2>
+	<ul>
+		<li>Documentação</li>
+		<li>PEP-008 :(</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>E o que vai acontecer com o south?</h2>
+	<ul>
+		<li>South 1.0 (atualmente na versão 0.8)</li>
+		<li>Rebase como principal feature</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>Links úteis</h2>
+	<ul>
+		<li><a href="https://docs.djangoproject.com/en/dev/topics/migrations/">https://docs.djangoproject.com/en/dev/topics/migrations/</a></li>
+		<li><a href="https://github.com/django/django/commits?author=andrewgodwin">https://github.com/django/django/commits?author=andrewgodwin</a></li>
+		<li><a href="http://www.aeracode.org/category/django-diaries/">http://www.aeracode.org/category/django-diaries/</a></li>
+	</ul>
+</section>
+<section class="slide">
+	<h1>Dúvidas?</h1>
+</section>
+
+<section class="slide">
+	<h1>42</h1>
+</section>
+
+<section class="slide">
+	<p></p>
+	<p>renato@labcodes.com.br</p>
+	<p>@_renatooliveira</p>
+	<p>github.com/renatooliveira</p>
+	<p>labcodes.com.br</p>
+	<img src="img/labcodes.png">
+</section>
+
+<section class="slide">
+	<h1>Obrigado!</h1>
+</section>
+
+<!-- End slides. -->
+
+
+<!-- Begin extension snippets. Add or remove as needed. -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+	<span class="deck-status-current"></span>
+	/
+	<span class="deck-status-total"></span>
+</p>
+
+<!-- deck.goto snippet -->
+<form action="." method="get" class="goto-form">
+	<label for="goto-slide">Go to slide:</label>
+	<input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+	<datalist id="goto-datalist"></datalist>
+	<input type="submit" value="Go">
+</form>
+
+<!-- deck.hash snippet -->
+<a href="deck.js/." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<!-- End extension snippets. -->
+
+
+<!-- Required JS files. -->
+<script src="deck.js/jquery-1.7.2.min.js"></script>
+<script src="deck.js/core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="deck.js/core/deck.core.js"></script>
+<script src="deck.js/extensions/hash/deck.hash.js"></script>
+<script src="deck.js/extensions/menu/deck.menu.js"></script>
+<script src="deck.js/extensions/goto/deck.goto.js"></script>
+<script src="deck.js/extensions/status/deck.status.js"></script>
+<script src="deck.js/extensions/navigation/deck.navigation.js"></script>
+<script src="deck.js/extensions/scale/deck.scale.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+	$(function() {
+		$.deck('.slide');
+	});
+</script>
+</body>
+</html>
